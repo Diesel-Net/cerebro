@@ -14,6 +14,7 @@ services:
         - traefik.http.services.{{ proxy.webui.service }}.loadbalancer.server.port={{ proxy.webui.port }}
         - traefik.http.routers.{{ proxy.webui.router }}.rule=Host(`{{ proxy.webui.host }}`)
         - traefik.http.routers.{{ proxy.webui.router }}.service={{ proxy.webui.service }}
+        - traefik.http.routers.{{ proxy.webui.router }}.tls.certresolver=step-ca
     networks:
       - {{ docker_network }}
       
