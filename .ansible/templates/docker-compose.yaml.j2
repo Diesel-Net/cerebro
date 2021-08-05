@@ -1,0 +1,24 @@
+# docker-compose.yaml
+
+version: '3.8'
+services: 
+
+  webui:
+    image: lmenezes/cerebro:0.9.4
+    volumes:
+      - {{ ssl_cert_dir }}/:/etc/ssl/certs/
+      - {{ config_dir }}/application.conf:/opt/cerebro/conf/application.conf
+    deploy:
+      labels:
+        - traefik.enable=true
+        - traefik.http.services.{{ proxy.webui.service }}.loadbalancer.server.port={{ proxy.webui.port }}
+        - traefik.http.routers.{{ proxy.webui.router }}.rule=Host(`{{ proxy.webui.host }}`)
+        - traefik.http.routers.{{ proxy.webui.router }}.service={{ proxy.webui.service }}
+        - traefik.http.routers.{{ proxy.webui.router }}.tls.certresolver=step-ca
+    networks:
+      - {{ docker_network }}
+      
+networks:
+  {{ docker_network }}:
+    external:
+      name: {{ docker_network }}

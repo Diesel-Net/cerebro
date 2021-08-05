@@ -1,0 +1,58 @@
+# Secret will be used to sign session cookies, CSRF tokens and for other encryption utilities.
+# It is highly recommended to change this value before running cerebro in production.
+secret = "{{ cerebro_secret }}"
+
+# Application base path
+basePath = "{{ proxy.webui.path }}"
+
+# Defaults to RUNNING_PID at the root directory of the app.
+# To avoid creating a PID file set this value to /dev/null
+#pidfile.path = "/var/run/cerebro.pid"
+pidfile.path=/dev/null
+
+# Rest request history max size per user
+rest.history.size = 50 // defaults to 50 if not specified
+
+# Path of local database file
+data.path = "./cerebro.db"
+
+#play.ws.ssl.loose.acceptAnyCertificate = true
+
+play.ws.ssl {
+  trustManager = {
+    stores = [
+      { type = "PEM", path = "/etc/ssl/certs/{{ ssl_cert_filename }}" }
+    ]
+  }
+}
+
+es = {
+  gzip = {{ elastic.gzip | string | lower }}
+}
+
+# Authentication
+auth = {
+  
+  type = basic
+
+  settings {
+
+    # Basic auth
+    username = "{{ elastic.username }}"
+    password = "{{ elastic.password }}"
+  }
+
+}
+
+# A list of known hosts (es clusters)
+hosts = [
+  {
+    host = "{{ elastic.url }}"
+    name = "{{ elastic.name }}"
+    headers-whitelist = [ "x-proxy-user", "x-proxy-roles", "X-Forwarded-For" ]
+    auth = {
+      username = "{{ elastic.username }}"
+      password = "{{ elastic.password }}"
+    }
+  }
+]

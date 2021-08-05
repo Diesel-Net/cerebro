@@ -1,0 +1,21 @@
+# ansible-playbook .ansible/deploy.yaml -i .ansible/inventories/production/hosts --vault-id ~/.tokens/vault.txt
+
+- hosts: tools
+  strategy: free
+  roles:
+    - common
+
+  tasks:
+
+    - include_role:
+        name: common
+        tasks_from: make_config_dir
+
+    - name: 'Render application.conf.j2 to {{ config_dir }}/application.conf'
+      template:
+        src: application.conf.j2
+        dest: '{{ config_dir }}/application.conf'
+
+    - include_role:
+        name: docker
+        tasks_from: stack_deploy
