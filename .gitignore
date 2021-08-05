@@ -1,0 +1,7 @@
+.ansible/roles/docker_stack
+.ansible/roles/docker_build
+.ansible/roles/docker_push
+.ansible/roles/docker_deploy
+.ansible/roles/file_deploy
+.ansible/roles/folder_deploy
+.DS_Store

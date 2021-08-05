@@ -1,0 +1,6 @@
+elastic:
+  name: Diesel Elastic
+  url: https://es.diesel.net
+  gzip: false
+  username: elastic
+  password: "{{ lookup('env', 'LDAP_ADMIN_PASSWORD') }}"

@@ -1,0 +1,8 @@
+proxy:
+  
+  webui:
+    service: '{{ repository }}-{{ version }}-webui'
+    port: 9000
+    router: '{{ repository }}-{{ version }}-webui'
+    host: cerebro.diesel.net
+    path: /
