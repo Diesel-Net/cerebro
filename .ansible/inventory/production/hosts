@@ -1,10 +1,9 @@
 all:
   children:
 
-    tool:
+    tools:
       hosts:
-        # cerebro.occ.starbucks.net
-        ub61003.starbucks.net:
+        tools.diesel.net
         
   vars:
     ansible_user: automation
